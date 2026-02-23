@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="ProjetoDDDNet10.API/ProjetoDDDNet10.API.csproj" Id="7d102a53-6efb-4956-a17f-778ac61ea40b" />
+  <Project Path="ProjetoDDDNet10.Application/ProjetoDDDNet10.Application.csproj" Id="a140cdae-62a8-4353-a753-dc8d2fdeb870" />
+  <Project Path="ProjetoDDDNet10.Domain/ProjetoDDDNet10.Domain.csproj" />
+  <Project Path="ProjetoDDDNet10.Infrastructure/ProjetoDDDNet10.Infrastructure.csproj" Id="63aaab14-cd88-4e83-bba8-0813de8fe3b6" />
+</Solution>
