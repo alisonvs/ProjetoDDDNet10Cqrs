@@ -27,11 +27,21 @@ namespace ProjetoDDDNet10.Infrastructure.Repositories
         {
             return await _context.Customers
                 .FirstOrDefaultAsync(x => x.Id == id);
-        }
-
+        }      
         public async Task<List<Customer>> GetAllAsync()
         {
-            return await _context.Customers.ToListAsync();
+            return await _context.Customers
+                .AsNoTracking()
+                .OrderBy(x => x.Name)
+                .ToListAsync();
+        }
+        public async Task<List<Customer>> SearchByNameAsync(string name)
+        {
+            return await _context.Customers
+                .AsNoTracking()
+                .Where(x => x.Name.Contains(name))
+                .OrderBy(x => x.Name)
+                .ToListAsync();
         }
     }
 }

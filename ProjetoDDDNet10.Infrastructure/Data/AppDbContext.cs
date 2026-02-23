@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using ProjetoDDDNet10.Domain.Entities;
+using ProjetoDDDNet10.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.EntityFrameworkCore;
-using ProjetoDDDNet10.Domain.Entities;
 
 
 
@@ -16,4 +17,5 @@ namespace ProjetoDDDNet10.Infrastructure.Data
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options) { }
     }
+    
 }

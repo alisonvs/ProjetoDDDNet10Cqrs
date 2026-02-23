@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using ProjetoDDDNet10.Application.Common;
+using ProjetoDDDNet10.Application.DTO;
 using ProjetoDDDNet10.Application.Queries;
 using ProjetoDDDNet10.Domain.Entities;
 using ProjetoDDDNet10.Domain.Interfaces;
@@ -10,23 +12,30 @@ using System.Text;
 namespace ProjetoDDDNet10.Application.Handlers
 {
     public class GetCustomerByIdHandler
-      : IRequestHandler<GetCustomerByIdQuery, Customer?>
+    : IRequestHandler<GetCustomerByIdQuery, Result<CustomerDto>>
     {
         private readonly ICustomerRepository _repository;
-        private readonly ILogger<GetCustomerByIdHandler> _logger;
 
-        public GetCustomerByIdHandler(ICustomerRepository repository,
-                                      ILogger<GetCustomerByIdHandler> logger)
+        public GetCustomerByIdHandler(ICustomerRepository repository)
         {
             _repository = repository;
-            _logger = logger;
         }
 
-        public async Task<Customer?> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<CustomerDto>> Handle(
+            GetCustomerByIdQuery request,
+            CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Searching customer {Id}", request.Id);
+            var customer = await _repository.GetByIdAsync(request.Id);
 
-            return await _repository.GetByIdAsync(request.Id);
+            if (customer is null)
+                return Result<CustomerDto>.Fail("Customer not found");
+
+            var dto = new CustomerDto(
+                customer.Id,
+                customer.Name,
+                customer.Email);
+
+            return Result<CustomerDto>.Ok(dto);
         }
     }
 }

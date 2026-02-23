@@ -9,6 +9,12 @@ namespace ProjetoDDDNet10.Domain.Interfaces
     {
         Task AddAsync(Customer customer);
         Task<Customer?> GetByIdAsync(Guid id);
-        Task<List<Customer>> GetAllAsync();
+        Task<List<Customer>> GetAllAsync();       
+        Task<List<Customer>> SearchByNameAsync(string name);
+    }
+
+    public interface IUnitOfWork
+    {
+        Task<int> CommitAsync();
     }
 }

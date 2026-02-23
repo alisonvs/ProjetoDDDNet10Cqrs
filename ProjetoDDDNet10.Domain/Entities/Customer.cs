@@ -1,12 +1,13 @@
-﻿using System;
+﻿using ProjetoDDDNet10.Domain.Common;
+using ProjetoDDDNet10.Domain.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace ProjetoDDDNet10.Domain.Entities
 {
-    public class Customer
+    public class Customer : Entity
     {
-        public Guid Id { get; private set; }
         public string Name { get; private set; }
         public string Email { get; private set; }
         public DateTime CreatedAt { get; private set; }
@@ -16,20 +17,25 @@ namespace ProjetoDDDNet10.Domain.Entities
         public Customer(string name, string email)
         {
             Id = Guid.NewGuid();
-            Name = name;
-            Email = email;
+            SetName(name);
+            SetEmail(email);
             CreatedAt = DateTime.UtcNow;
-
-            Validate();
         }
 
-        private void Validate()
+        public void SetName(string name)
         {
-            if (string.IsNullOrWhiteSpace(Name))
-                throw new Exception("Name is required");
+            if (string.IsNullOrWhiteSpace(name))
+                throw new DomainException("Name is required");
 
-            if (string.IsNullOrWhiteSpace(Email))
-                throw new Exception("Email is required");
+            Name = name;
+        }
+
+        public void SetEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                throw new DomainException("Email is required");
+
+            Email = email;
         }
     }
 }

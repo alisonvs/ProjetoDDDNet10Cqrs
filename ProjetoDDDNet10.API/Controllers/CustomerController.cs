@@ -6,34 +6,56 @@ using ProjetoDDDNet10.Application.Queries;
 
 namespace ProjetoDDDNet10.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class CustomerController : ControllerBase
+    [Route("api/customers")]
+    public class CustomersController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public CustomerController(IMediator mediator)
+        public CustomersController(IMediator mediator)
         {
             _mediator = mediator;
         }
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateCustomerCommand command)
         {
-            var id = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetById), new { id }, id);
+            var result = await _mediator.Send(command);
+
+            if (!result.Success)
+                return BadRequest(result.Error);
+
+            return CreatedAtAction(nameof(GetById),
+                new { id = result.Data }, result.Data);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _mediator.Send(new GetAllCustomersQuery());
+
+            return Ok(result.Data);
+        }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] string name)
+        {
+            var result = await _mediator.Send(
+                new SearchCustomersQuery(name));
+
+            return Ok(result.Data);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var customer = await _mediator.Send(new GetCustomerByIdQuery(id));
+            var result = await _mediator.Send(
+                new GetCustomerByIdQuery(id));
 
-            if (customer is null)
+            if (!result.Success)
                 return NotFound();
 
-            return Ok(customer);
+            return Ok(result.Data);
         }
-
-
     }
 }
