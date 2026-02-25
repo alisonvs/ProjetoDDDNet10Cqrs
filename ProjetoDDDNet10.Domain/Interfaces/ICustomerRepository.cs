@@ -13,9 +13,4 @@ namespace ProjetoDDDNet10.Domain.Interfaces
         Task<List<Customer>> SearchByNameAsync(string name);
         Task SaveChangesAsync();
     }
-
-    public interface IUnitOfWork
-    {
-        Task<int> CommitAsync();
-    }
 }
