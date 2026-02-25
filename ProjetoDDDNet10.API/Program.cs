@@ -1,9 +1,11 @@
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using ProjetoDDDNet10.Application.Commands;
 using ProjetoDDDNet10.Application.Common.Behaviors;
 using ProjetoDDDNet10.Application.Validator;
+using ProjetoDDDNet10.Domain.Exceptions;
 using ProjetoDDDNet10.Domain.Interfaces;
 using ProjetoDDDNet10.Infrastructure.Data;
 using ProjetoDDDNet10.Infrastructure.Repositories;
@@ -32,7 +34,32 @@ builder.Services.AddMediatR(cfg =>
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>),
     typeof(ValidationBehavior<,>));
 var app = builder.Build();
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        var exception = context.Features
+            .Get<IExceptionHandlerFeature>()?.Error;
 
+        context.Response.ContentType = "application/json";
+
+        switch (exception)
+        {
+            case DomainException:
+                context.Response.StatusCode = 400;
+                break;
+
+            default:
+                context.Response.StatusCode = 500;
+                break;
+        }
+
+        await context.Response.WriteAsJsonAsync(new
+        {
+            error = exception?.Message
+        });
+    });
+});
 // Swagger
 app.UseSwagger();
 app.UseSwaggerUI();
