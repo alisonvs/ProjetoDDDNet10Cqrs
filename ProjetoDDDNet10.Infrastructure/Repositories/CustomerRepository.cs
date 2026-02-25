@@ -1,10 +1,10 @@
-﻿using ProjetoDDDNet10.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using ProjetoDDDNet10.Domain.Entities;
 using ProjetoDDDNet10.Domain.Interfaces;
 using ProjetoDDDNet10.Infrastructure.Data;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace ProjetoDDDNet10.Infrastructure.Repositories
 {
@@ -18,8 +18,12 @@ namespace ProjetoDDDNet10.Infrastructure.Repositories
         }
 
         public async Task AddAsync(Customer customer)
-        {
+        {            
             await _context.Customers.AddAsync(customer);
+          
+        }
+        public async Task SaveChangesAsync()
+        {
             await _context.SaveChangesAsync();
         }
 
@@ -30,6 +34,7 @@ namespace ProjetoDDDNet10.Infrastructure.Repositories
         }      
         public async Task<List<Customer>> GetAllAsync()
         {
+           
             return await _context.Customers
                 .AsNoTracking()
                 .OrderBy(x => x.Name)

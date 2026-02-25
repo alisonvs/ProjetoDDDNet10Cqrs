@@ -1,4 +1,5 @@
 ﻿using ProjetoDDDNet10.Domain.Common;
+using ProjetoDDDNet10.Domain.Events;
 using ProjetoDDDNet10.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace ProjetoDDDNet10.Domain.Entities
 {
-    public class Customer : Entity
+    public class Customer : BaseEntity
     {
         public string Name { get; private set; }
         public string Email { get; private set; }
@@ -20,6 +21,7 @@ namespace ProjetoDDDNet10.Domain.Entities
             SetName(name);
             SetEmail(email);
             CreatedAt = DateTime.UtcNow;
+            AddDomainEvent(new CustomerCreatedEvent(Id));
         }
 
         public void SetName(string name)
