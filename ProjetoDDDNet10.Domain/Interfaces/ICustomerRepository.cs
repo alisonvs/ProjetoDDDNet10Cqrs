@@ -11,6 +11,7 @@ namespace ProjetoDDDNet10.Domain.Interfaces
         Task<Customer?> GetByIdAsync(Guid id);
         Task<List<Customer>> GetAllAsync();       
         Task<List<Customer>> SearchByNameAsync(string name);
+        Task<bool>ExistsByEmailAsync(string email);
         Task SaveChangesAsync();
     }
 }

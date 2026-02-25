@@ -28,14 +28,14 @@ namespace ProjetoDDDNet10.Application.Handlers
             var customer = await _repository.GetByIdAsync(request.Id);
 
             if (customer is null)
-                return Result<CustomerDto>.Fail("Customer not found");
+                return Result<CustomerDto>.Failure("Customer not found");
 
             var dto = new CustomerDto(
                 customer.Id,
                 customer.Name,
                 customer.Email);
 
-            return Result<CustomerDto>.Ok(dto);
+            return Result<CustomerDto>.Success(dto);
         }
     }
 }

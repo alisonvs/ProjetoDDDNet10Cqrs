@@ -22,11 +22,15 @@ namespace ProjetoDDDNet10.API.Controllers
         {
             var result = await _mediator.Send(command);
 
-            if (!result.Success)
-                return BadRequest(result.Error);
+            if (!result.IsSuccess)
+            {
+                return Problem(
+                    title: "Erro de validação",
+                    detail: result.Error,
+                    statusCode: result.StatusCode);
+            }
 
-            return CreatedAtAction(nameof(GetById),
-                new { id = result.Data }, result.Data);
+            return Ok(result.Value);
         }
 
         [HttpGet]
@@ -34,7 +38,7 @@ namespace ProjetoDDDNet10.API.Controllers
         {
             var result = await _mediator.Send(new GetAllCustomersQuery());
 
-            return Ok(result.Data);
+            return Ok(result);
         }
 
         [HttpGet("search")]
@@ -43,7 +47,7 @@ namespace ProjetoDDDNet10.API.Controllers
             var result = await _mediator.Send(
                 new SearchCustomersQuery(name));
 
-            return Ok(result.Data);
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
@@ -52,10 +56,10 @@ namespace ProjetoDDDNet10.API.Controllers
             var result = await _mediator.Send(
                 new GetCustomerByIdQuery(id));
 
-            if (!result.Success)
+            if (!result.IsSuccess)
                 return NotFound();
 
-            return Ok(result.Data);
+            return Ok(result);
         }
     }
 }

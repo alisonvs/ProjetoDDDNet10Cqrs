@@ -29,7 +29,7 @@ namespace ProjetoDDDNet10.Application.Handlers
                 .Select(c => new CustomerDto(c.Id, c.Name, c.Email))
                 .ToList();
 
-            return Result<List<CustomerDto>>.Ok(dto);
+            return Result<List<CustomerDto>>.Success(dto);
         }
     }
 }

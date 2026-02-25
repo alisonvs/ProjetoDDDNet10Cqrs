@@ -48,5 +48,10 @@ namespace ProjetoDDDNet10.Infrastructure.Repositories
                 .OrderBy(x => x.Name)
                 .ToListAsync();
         }
+
+        public async Task<bool> ExistsByEmailAsync(string email)
+        {
+            return await _context.Customers.AsNoTracking().Where(_context => _context.Email.Contains(email)).AnyAsync();
+        }
     }
 }

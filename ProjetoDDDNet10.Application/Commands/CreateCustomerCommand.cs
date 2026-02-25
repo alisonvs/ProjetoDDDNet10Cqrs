@@ -6,6 +6,8 @@ using System.Text;
 
 namespace ProjetoDDDNet10.Application.Commands
 {
-    public record CreateCustomerCommand(string Name, string Email)
-    : IRequest<Result<Guid>>;
+    public record CreateCustomerCommand(
+     string Name,
+     string Email
+ ) : IRequest<Result<Guid>>;
 }

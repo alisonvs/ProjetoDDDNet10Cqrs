@@ -2,6 +2,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using ProjetoDDDNet10.API.Middleware;
 using ProjetoDDDNet10.Application.Commands;
 using ProjetoDDDNet10.Application.Common.Behaviors;
 using ProjetoDDDNet10.Application.Validator;
@@ -63,7 +64,7 @@ app.UseExceptionHandler(errorApp =>
 // Swagger
 app.UseSwagger();
 app.UseSwaggerUI();
-
+app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseHttpsRedirection();
 app.MapControllers();
 
