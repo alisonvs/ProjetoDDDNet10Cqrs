@@ -13,14 +13,18 @@ namespace ProjetoDDDNet10.Domain.Entities
         public string Email { get; private set; }
         public DateTime CreatedAt { get; private set; }
 
+        public string Phone { get; set; }
+
+        public ICollection<Freight> Freights { get; set; } = new List<Freight>();
         protected Customer() { }
 
-        public Customer(string name, string email)
+        public Customer(string name, string email, string phone)
         {
             Id = Guid.NewGuid();
             SetName(name);
             SetEmail(email);
             CreatedAt = DateTime.UtcNow;
+            Phone = phone;
             AddDomainEvent(new CustomerCreatedEvent(Id));
         }
 
@@ -38,6 +42,12 @@ namespace ProjetoDDDNet10.Domain.Entities
                 throw new DomainException("Email is required");
 
             Email = email;
+        }
+        public void SetPhone(string phone)
+        {
+            if(string.IsNullOrWhiteSpace(phone))
+                throw new DomainException("Phone is required");
+            Phone = phone;
         }
     }
 }

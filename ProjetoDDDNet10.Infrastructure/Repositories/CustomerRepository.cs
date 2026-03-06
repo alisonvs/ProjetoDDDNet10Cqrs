@@ -10,9 +10,9 @@ namespace ProjetoDDDNet10.Infrastructure.Repositories
 {
     public class CustomerRepository : ICustomerRepository
     {
-        private readonly AppDbContext _context;
+        private readonly TransportDbContext _context;
 
-        public CustomerRepository(AppDbContext context)
+        public CustomerRepository(TransportDbContext context)
         {
             _context = context;
         }

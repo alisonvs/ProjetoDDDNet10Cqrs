@@ -35,12 +35,15 @@ namespace ProjetoDDDNet10.Application.Handlers
             if (string.IsNullOrWhiteSpace(request.Email))
                 return Result<Guid>.Failure("Email é obrigatório.");
             
+            if (string.IsNullOrWhiteSpace(request.Phone))
+                return Result<Guid>.Failure("Telefone é obrigatório.");
+
             var exists = await _repository.ExistsByEmailAsync(request.Email);
 
             if (exists)
                 return Result<Guid>.Conflict("Já existe um cliente com este email.",409);
 
-            var customer = new Customer(request.Name, request.Email);
+            var customer = new Customer(request.Name, request.Email,request.Phone);
 
             await _repository.AddAsync(customer);
             await _unitOfWork.CommitAsync();

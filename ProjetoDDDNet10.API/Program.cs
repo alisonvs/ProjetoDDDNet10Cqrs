@@ -32,6 +32,11 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Creat
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(CreateCustomerCommand).Assembly));
 
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateFreightValidator).Assembly));
+builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssembly(typeof(CreateFreightCommand).Assembly));
+
+
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>),
     typeof(ValidationBehavior<,>));
 var app = builder.Build();

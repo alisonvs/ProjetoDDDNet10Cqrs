@@ -8,6 +8,7 @@ namespace ProjetoDDDNet10.Application.Commands
 {
     public record CreateCustomerCommand(
      string Name,
-     string Email
+     string Email,
+     string Phone
  ) : IRequest<Result<Guid>>;
 }

@@ -5,8 +5,8 @@ using System.Text;
 
 namespace ProjetoDDDNet10.Domain.Interfaces
 {
-    public interface ICustomerRepository : IBase<Customer>
-    {  
-        Task<bool>ExistsByEmailAsync(string email);       
+    public interface IFreightRepository : IBase<Freight>
+    {
+
     }
 }
